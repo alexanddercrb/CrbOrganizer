@@ -1,0 +1,8 @@
+1. build the mac versions (ARM for M1, M2 and X64 for Intel) using the following command: bash MacBuild.sh
+2. Download and run Platypus for packing the APP: https://github.com/sveinbjornt/Platypus
+3. In Platypus select the app name you want, the icon, author, and select the script type as sh with /bin/sh
+4. Reference the PlatypusScript.sh and select None as interface.
+5. Add files depending on what version of platform you target (x64 or arm64) - example: add files found in Release/net8.0/osx-arm64
+6. Click CREATE APP
+
+Useful url: https://www.xamboy.com/2020/05/28/net-core-application-macos-packaging-and-notarization/

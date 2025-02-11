@@ -1,0 +1,50 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="MediaOrganizerV2.MainWindow"
+        Title="MediaOrganizerV2">
+	<StackPanel Orientation="Vertical" Margin="10">
+		<ContentControl>
+			<Grid ColumnDefinitions="4*, 1*" Height="50">
+				<TextBox Grid.Column="0" x:Name="sourcePath" Height="20" Margin="0 0 10 0" IsReadOnly="True"></TextBox>
+				<Button Grid.Column="1" x:Name="sourceFolderButton" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Click="SourceFolderSelectClick">Source Folder</Button>
+			</Grid>
+		</ContentControl>
+		<ContentControl>
+			<Grid ColumnDefinitions="4*, 1*" Height="50">
+				<TextBox Grid.Column="0" x:Name="destinationPath" Height="20" Margin="0 0 10 0" IsReadOnly="True"></TextBox>
+				<Button Grid.Column="1" x:Name="destinationFolderButton" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Click="DestinationFolderSelectClick">Destination Folder</Button>
+			</Grid>
+		</ContentControl>
+		<ContentControl>
+			<Grid ColumnDefinitions="auto, auto, auto" x:Name="controlsGrid" Height="170">
+				<Grid Grid.Column="0" RowDefinitions="auto, auto, auto, auto" Height="170">
+					<RadioButton Grid.Row="0" x:Name="yearlyRadio" GroupName="Organise Type" Content="Organise per year" />
+					<RadioButton Grid.Row="1" x:Name="monthlyRadio" GroupName="Organise Type" Content="Organise per month" />
+					<RadioButton Grid.Row="2" x:Name="dailyRadio" GroupName="Organise Type" Content="Organise per day" IsChecked="True" />
+					<CheckBox Grid.Row="3" x:Name="includeSubfolders">Include Subfolders</CheckBox>
+				</Grid>
+				<ContentControl Grid.Column="1" Margin="70 0 0 0">
+					<Button Height="50" Width="120" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="ExecuteButtonClick">RUN</Button>
+				</ContentControl>
+				<ContentControl Grid.Column="2" Height="170" HorizontalAlignment="Left" VerticalContentAlignment="Center">
+					<TextBlock HorizontalAlignment="Left" xml:space="preserve">
+						- Uses EXIF metadata of pictures and videos &#x0a;
+						- Creates a folder structure based on recorded date of the media
+					</TextBlock>
+				</ContentControl>
+			</Grid>
+		</ContentControl>
+		<ContentControl>
+			<Border BorderBrush="Gray" BorderThickness="1" CornerRadius="3" Padding="10">
+				<Grid MaxHeight="300">
+					<ScrollViewer x:Name="scrollViewer" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+						<TextBlock x:Name="logsText" MinHeight="300" xml:space="preserve"></TextBlock>
+					</ScrollViewer>
+				</Grid>
+			</Border>
+		</ContentControl>
+	</StackPanel>
+</Window>
