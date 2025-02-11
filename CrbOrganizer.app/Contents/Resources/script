@@ -1,0 +1,3 @@
+#!/bin/sh
+
+./MediaOrganizerV2
