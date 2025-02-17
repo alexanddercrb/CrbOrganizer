@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35514.174 d17.12
+VisualStudioVersion = 17.12.35514.174
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaOrganizerV2", "MediaOrganizerV2\MediaOrganizerV2.csproj", "{ABF81CF2-22AA-4CB8-B2EA-F2BA0D40BD4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrbOrganizer", "MediaOrganizerV2\CrbOrganizer.csproj", "{ABF81CF2-22AA-4CB8-B2EA-F2BA0D40BD4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

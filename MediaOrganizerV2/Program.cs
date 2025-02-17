@@ -7,7 +7,7 @@ using Avalonia;
 using Avalonia.Threading;
 using MetadataExtractor;
 
-namespace MediaOrganizerV2
+namespace CrbOrganizer
 {
     internal class Program
     {

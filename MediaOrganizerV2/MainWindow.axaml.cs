@@ -8,7 +8,7 @@ using Avalonia.Media;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 
-namespace MediaOrganizerV2
+namespace CrbOrganizer
 {
     public partial class MainWindow : Window
     {

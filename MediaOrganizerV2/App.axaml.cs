@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
-namespace MediaOrganizerV2
+namespace CrbOrganizer
 {
     public partial class App : Application
     {

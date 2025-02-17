@@ -5,7 +5,7 @@ using System.IO;
 using System.Threading.Tasks;
 using MetadataExtractor;
 
-namespace MediaOrganizerV2
+namespace CrbOrganizer
 {
     public static class ProgramRunner
     {

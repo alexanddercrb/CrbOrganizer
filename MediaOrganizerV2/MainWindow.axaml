@@ -3,8 +3,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="MediaOrganizerV2.MainWindow"
-        Title="MediaOrganizerV2">
+        x:Class="CrbOrganizer.MainWindow"
+        Title="Crb Organizer">
 	<StackPanel Orientation="Vertical" Margin="10">
 		<ContentControl>
 			<Grid ColumnDefinitions="4*, 1*" Height="50">
