@@ -19,22 +19,26 @@
 			</Grid>
 		</ContentControl>
 		<ContentControl>
-			<Grid ColumnDefinitions="auto, auto, auto" x:Name="controlsGrid" Height="170">
-				<Grid Grid.Column="0" RowDefinitions="auto, auto, auto, auto" Height="170">
+			<Grid ColumnDefinitions="auto, auto, auto" x:Name="controlsGrid" Height="120">
+				<Grid Grid.Column="0" RowDefinitions="auto, auto, auto">
 					<RadioButton Grid.Row="0" x:Name="yearlyRadio" GroupName="Organise Type" Content="Organise per year" />
 					<RadioButton Grid.Row="1" x:Name="monthlyRadio" GroupName="Organise Type" Content="Organise per month" />
 					<RadioButton Grid.Row="2" x:Name="dailyRadio" GroupName="Organise Type" Content="Organise per day" IsChecked="True" />
-					<CheckBox Grid.Row="3" x:Name="includeSubfolders">Include Subfolders</CheckBox>
 				</Grid>
-				<ContentControl Grid.Column="1" Margin="70 0 0 0">
-					<Button Height="50" Width="120" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="ExecuteButtonClick">RUN</Button>
-				</ContentControl>
-				<ContentControl Grid.Column="2" Height="170" HorizontalAlignment="Left" VerticalContentAlignment="Center">
-					<TextBlock HorizontalAlignment="Left" xml:space="preserve">
-						- Uses EXIF metadata of pictures and videos &#x0a;
-						- Creates a folder structure based on recorded date of the media
+				<Grid Grid.Column="1" RowDefinitions="auto, auto, auto" Margin="40 0 0 0">
+					<CheckBox Grid.Row="0" x:Name="includeSubfolders">Include Subfolders</CheckBox>
+					<CheckBox Grid.Row="1" x:Name="keepOriginalFile">Keep original files</CheckBox>
+					<CheckBox Grid.Row="2" x:Name="locationWrapper">Location wrapper</CheckBox>
+				</Grid>
+				<Grid Grid.Column="2" RowDefinitions="auto, auto, auto" Margin="40 0 0 0">
+					<TextBlock Grid.Row="0" Margin="0 8 0 0">
+						- Uses EXIF metadata of pictures and videos
 					</TextBlock>
-				</ContentControl>
+					<TextBlock Grid.Row="1" Margin="0 8 0 0">
+						- Creates folder structure based on metadata
+					</TextBlock>
+					<Button Grid.Row="2" Margin="0 8 0 0" Height="40" Width="120" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="ExecuteButtonClick">RUN</Button>
+				</Grid>
 			</Grid>
 		</ContentControl>
 		<ContentControl>

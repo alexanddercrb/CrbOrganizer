@@ -67,7 +67,7 @@ namespace CrbOrganizer
 
             if (includeSubfoldersCheck && destinationPath.Text.Contains(sourcePath.Text))
             {
-                AppendLogs($"\nError: destination folder cannot be the same or a subfolder whn 'Include Subfolders' is checked", false, 2);
+                AppendLogs($"\nError: destination folder cannot be the same or a subfolder when 'Include Subfolders' is checked", false, 2);
                 return;
             }
 
@@ -85,8 +85,17 @@ namespace CrbOrganizer
                 categorizationType = CategorizationTypeEnum.ByYear;
             }
 
+            var parameters = new ExecutionParams()
+            {
+                sourcePath = _sourceFolderPath,
+                targetPath = _destinationFolderPath,
+                categorizationType = categorizationType,
+                includeSubfolders = includeSubfoldersCheck,
+                keepOriginal = keepOriginalFile.IsChecked.Value
+            };
+
             // run external class
-            var execution = Task.Run(() => ProgramRunner.Runner(_sourceFolderPath, _destinationFolderPath, categorizationType, includeSubfoldersCheck, this));
+            var execution = Task.Run(() => ProgramRunner.Runner(parameters, this));
         }
 
         public void AppendLogs(string message = "", bool bold = false, int color = 0)

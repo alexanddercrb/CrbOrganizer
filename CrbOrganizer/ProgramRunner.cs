@@ -9,7 +9,7 @@ namespace CrbOrganizer
 {
     public static class ProgramRunner
     {
-        public static async Task Runner(string sourceFolder, string destinationFolder, CategorizationTypeEnum categorizationType, bool includeSubfolders, MainWindow uiInstance)
+        public static async Task Runner(ExecutionParams parameters, MainWindow uiInstance)
         {
             uiInstance.AppendLogs("Starting app");
             uiInstance.AppendLogs();
@@ -17,7 +17,7 @@ namespace CrbOrganizer
             try
             {
                 uiInstance.Clear();
-                MoveMediaFiles(sourceFolder, destinationFolder, categorizationType, includeSubfolders, uiInstance);
+                MoveMediaFiles(parameters, uiInstance);
                 uiInstance.EnableControls();
 
                 uiInstance.AppendLogs("\nExecution finished", true);
@@ -30,10 +30,10 @@ namespace CrbOrganizer
             }
         }
 
-        public static void MoveMediaFiles(string sourceFolder, string destinationFolder, CategorizationTypeEnum categorizationType, bool includeSubfolders, MainWindow uiInstance)
+        public static void MoveMediaFiles(ExecutionParams parameters, MainWindow uiInstance)
         {
-            var fileList = System.IO.Directory.GetFiles(sourceFolder);
-            uiInstance.AppendLogs($"{fileList.Length} files found in path {sourceFolder}");
+            var fileList = System.IO.Directory.GetFiles(parameters.sourcePath);
+            uiInstance.AppendLogs($"{fileList.Length} files found in path {parameters.sourcePath}");
             if (fileList.Length > 0)
             {
                 uiInstance.AppendLogs("Moving the documents...");
@@ -42,7 +42,7 @@ namespace CrbOrganizer
 
                 foreach (var file in fileList)
                 {
-                    var fileMoved = IsFileSuccessfullyMoved(file, destinationFolder, categorizationType, uiInstance);
+                    var fileMoved = IsFileSuccessfullyMoved(file, parameters, uiInstance);
                     if (fileMoved)
                         counter++;
                 }
@@ -55,13 +55,13 @@ namespace CrbOrganizer
                 }
             }
 
-            if (includeSubfolders)
+            if (parameters.includeSubfolders)
             {
-                CheckAndProcessSubfolders(sourceFolder, destinationFolder, categorizationType, uiInstance);
+                CheckAndProcessSubfolders(parameters, uiInstance);
             }
         }
 
-        public static bool IsFileSuccessfullyMoved(string file, string destinationFolder, CategorizationTypeEnum categorizationType, MainWindow uiInstance)
+        public static bool IsFileSuccessfullyMoved(string file, ExecutionParams parameters, MainWindow uiInstance)
         {
             if (file.ToLowerInvariant().EndsWith("exe") 
             || file.ToLowerInvariant().EndsWith("ini")
@@ -99,11 +99,11 @@ namespace CrbOrganizer
                     var partialPath = Path.Combine(date.Value.ToString("yyyy"), date.Value.ToString("MMM"));
                     var relativePath = string.Empty;
                     
-                    if (categorizationType == CategorizationTypeEnum.ByMonth)
+                    if (parameters.categorizationType == CategorizationTypeEnum.ByMonth)
                     {
                         relativePath = partialPath;
                     }
-                    else if (categorizationType == CategorizationTypeEnum.ByYear)
+                    else if (parameters.categorizationType == CategorizationTypeEnum.ByYear)
                     {
                         relativePath = Path.Combine(date.Value.ToString("yyyy"));
                     }
@@ -111,7 +111,7 @@ namespace CrbOrganizer
                         relativePath = Path.Combine(partialPath, date.Value.ToString("dd"));
                     }
 
-                    var finalFolder = Path.Combine(destinationFolder, relativePath);
+                    var finalFolder = Path.Combine(parameters.targetPath, relativePath);
                     
                     var fileName = Path.GetFileName(file);
 
@@ -119,7 +119,10 @@ namespace CrbOrganizer
                     
                     System.IO.Directory.CreateDirectory(finalFolder);
 
-                    File.Move(file, finalPath, true);
+                    if (parameters.keepOriginal)
+                        File.Copy(file, finalPath, true);
+                    else
+                        File.Move(file, finalPath, true);
 
                     return true;
                 }
@@ -133,13 +136,13 @@ namespace CrbOrganizer
             return false;
         }
 
-        public static void CheckAndProcessSubfolders(string sourceFolder, string destinationFolder, CategorizationTypeEnum categorizationType, MainWindow uiInstance)
+        public static void CheckAndProcessSubfolders(ExecutionParams parameters, MainWindow uiInstance)
         {
             uiInstance.AppendLogs();
             uiInstance.AppendLogs();
-            uiInstance.AppendLogs($"Getting subfolders for {sourceFolder}", true);
-            var foldersList = System.IO.Directory.GetDirectories(sourceFolder);
-            uiInstance.AppendLogs($"{foldersList.Length} subfolders found in path {sourceFolder}");
+            uiInstance.AppendLogs($"Getting subfolders for {parameters.sourcePath}", true);
+            var foldersList = System.IO.Directory.GetDirectories(parameters.sourcePath);
+            uiInstance.AppendLogs($"{foldersList.Length} subfolders found in path {parameters.sourcePath}");
             if (foldersList.Length > 0)
             {
                 uiInstance.AppendLogs("Started to process subfolders");
@@ -147,7 +150,15 @@ namespace CrbOrganizer
 
                 foreach (var folder in foldersList)
                 {
-                    MoveMediaFiles(folder, destinationFolder, categorizationType, true, uiInstance);
+                    var newParameters = new ExecutionParams()
+                    {
+                        sourcePath = folder,
+                        targetPath = parameters.targetPath,
+                        categorizationType = parameters.categorizationType,
+                        includeSubfolders = true,
+                        keepOriginal = parameters.keepOriginal
+                    };
+                    MoveMediaFiles(newParameters, uiInstance);
                 }
             }
         }
