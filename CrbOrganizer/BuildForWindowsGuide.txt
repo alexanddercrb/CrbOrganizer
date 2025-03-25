@@ -1,0 +1,12 @@
+Use Nulsoft installer.
+
+Copy the folder win-x64 from the Release folder to desktop
+
+Check the NSIS-script file and adapt any path if needed
+
+Open NSIS
+
+Click Compile NSIS Scripts
+
+Drag and drop the NSIS-script file and follow the wizard
+

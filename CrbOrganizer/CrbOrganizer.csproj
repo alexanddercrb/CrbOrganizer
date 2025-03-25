@@ -13,6 +13,12 @@
     <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="cities500.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="cities500.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Crb_logo.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -29,5 +35,6 @@
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="MetadataExtractor" Version="2.8.1" />
+    <PackageReference Include="ReverseGeocoder" Version="0.3.0" />
   </ItemGroup>
 </Project>

@@ -28,7 +28,7 @@
 				<Grid Grid.Column="1" RowDefinitions="auto, auto, auto" Margin="40 0 0 0">
 					<CheckBox Grid.Row="0" x:Name="includeSubfolders">Include Subfolders</CheckBox>
 					<CheckBox Grid.Row="1" x:Name="keepOriginalFile">Keep original files</CheckBox>
-					<CheckBox Grid.Row="2" x:Name="locationWrapper">Location wrapper</CheckBox>
+					<CheckBox Grid.Row="2" x:Name="locationWrapper">Sort by location (photos only)</CheckBox>
 				</Grid>
 				<Grid Grid.Column="2" RowDefinitions="auto, auto, auto" Margin="40 0 0 0">
 					<TextBlock Grid.Row="0" Margin="0 8 0 0">

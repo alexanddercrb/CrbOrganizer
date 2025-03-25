@@ -1,3 +1,3 @@
 #!/bin/sh
 
-./MediaOrganizerV2
+./CrbOrganizer

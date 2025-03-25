@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using MetadataExtractor;
+using ReverseGeocoding;
 
 namespace CrbOrganizer
 {
@@ -74,6 +75,8 @@ namespace CrbOrganizer
 
                 var fileDate = string.Empty;
                 DateTime? date = null;
+                string longitude = "";
+                string latitude = "";
 
                 foreach (var metadataDirectory in metadataDirectories)
                     foreach (var tag in metadataDirectory.Tags)
@@ -90,7 +93,14 @@ namespace CrbOrganizer
                                 date = DateTime.ParseExact(tag.Description, "ddd MMM d H:m:ss yyyy", CultureInfo.InvariantCulture);
                             }
 
-
+                        if (tag.Name.ToLowerInvariant().Equals("gps latitude") && !string.IsNullOrWhiteSpace(tag.Description))
+                        {
+                            latitude = tag.Description;
+                        }
+                        if (tag.Name.ToLowerInvariant().Equals("gps longitude") && !string.IsNullOrWhiteSpace(tag.Description))
+                        {
+                            longitude = tag.Description;
+                        }
                     }
 
                 if (date != null)
@@ -109,6 +119,19 @@ namespace CrbOrganizer
                     }
                     else {
                         relativePath = Path.Combine(partialPath, date.Value.ToString("dd"));
+                    }
+
+                    if (parameters.locationWrapper)
+                    {
+                        if (string.IsNullOrWhiteSpace(longitude) || string.IsNullOrWhiteSpace(longitude))
+                            relativePath = Path.Combine("unknown_location", partialPath);
+                        else
+                        {
+                            double longitudeDouble = CoordinateToDouble(longitude);
+                            double latitudeDouble = CoordinateToDouble(latitude);
+                            var locationName = GeocoderService.Instance.GetNearestPlaceName(latitudeDouble, longitudeDouble);
+                            relativePath = Path.Combine(locationName, partialPath);
+                        }
                     }
 
                     var finalFolder = Path.Combine(parameters.targetPath, relativePath);
@@ -136,7 +159,26 @@ namespace CrbOrganizer
             return false;
         }
 
-        public static void CheckAndProcessSubfolders(ExecutionParams parameters, MainWindow uiInstance)
+        private static double CoordinateToDouble(string coordinate)
+        {
+            // Remove unnecessary characters and split the input
+            coordinate = coordinate.Replace("°", " ").Replace("'", " ").Replace("\"", " ").Trim();
+            string[] parts = coordinate.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length != 3)
+            {
+                throw new FormatException($"Invalid coordinate format for '{coordinate}'");
+            }
+
+            double degrees = double.Parse(parts[0], CultureInfo.InvariantCulture);
+            double minutes = double.Parse(parts[1], CultureInfo.InvariantCulture);
+            double seconds = double.Parse(parts[2], CultureInfo.InvariantCulture);
+
+            // Convert to decimal degrees
+            return degrees + (minutes / 60) + (seconds / 3600);
+        }
+
+        private static void CheckAndProcessSubfolders(ExecutionParams parameters, MainWindow uiInstance)
         {
             uiInstance.AppendLogs();
             uiInstance.AppendLogs();
@@ -156,7 +198,8 @@ namespace CrbOrganizer
                         targetPath = parameters.targetPath,
                         categorizationType = parameters.categorizationType,
                         includeSubfolders = true,
-                        keepOriginal = parameters.keepOriginal
+                        keepOriginal = parameters.keepOriginal,
+                        locationWrapper = parameters.locationWrapper
                     };
                     MoveMediaFiles(newParameters, uiInstance);
                 }

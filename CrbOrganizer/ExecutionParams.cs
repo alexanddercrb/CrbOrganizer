@@ -13,5 +13,6 @@ namespace CrbOrganizer
         public CategorizationTypeEnum categorizationType { get; set; }
         public bool includeSubfolders { get; set; }
         public bool keepOriginal { get; set; }
+        public bool locationWrapper { get; set; }
     }
 }

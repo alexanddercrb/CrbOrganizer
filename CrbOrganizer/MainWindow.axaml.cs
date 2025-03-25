@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -91,7 +90,8 @@ namespace CrbOrganizer
                 targetPath = _destinationFolderPath,
                 categorizationType = categorizationType,
                 includeSubfolders = includeSubfoldersCheck,
-                keepOriginal = keepOriginalFile.IsChecked.Value
+                keepOriginal = keepOriginalFile.IsChecked.Value,
+                locationWrapper = locationWrapper.IsChecked.Value
             };
 
             // run external class
